@@ -132,7 +132,7 @@ export async function readRulesFile(dataName: string): Promise<TestData> {
         return !cases.length ? null : {
             subtasks: [{
                 score: 100,
-                type: SubtaskScoringType.Summation,
+                type: SubtaskScoringType.Minimum,
                 cases: cases
             }],
             spj: spj,

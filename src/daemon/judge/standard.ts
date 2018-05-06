@@ -61,7 +61,7 @@ export class StandardJudger extends JudgerBase {
             testDataName: this.testData.name,
             inputData: curCase.input,
             answerData: curCase.output,
-            time: this.parameters.timeLimit,
+            time: this.parameters.timeLimit - (curCase.spent_time ? curCase.spent_time : 0),
             memory: this.parameters.memoryLimit,
             fileIOInput: this.parameters.fileIOInput,
             fileIOOutput: this.parameters.fileIOOutput,

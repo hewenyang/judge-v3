@@ -51,6 +51,7 @@ export abstract class JudgerBase {
                 // Type minimum is skippable, run one by one
                 if (currentTask.type !== SubtaskScoringType.Summation) {
                     let skipped: boolean = false;
+                    let spent_time: number = 0;
                     for (let index = 0; index < currentTask.cases.length; index++) {
                         const currentTaskResult = currentResult.cases[index];
                         if (skipped) {
@@ -59,12 +60,16 @@ export abstract class JudgerBase {
                             winston.verbose(`Judging ${subtaskIndex}, case ${index}.`);
                             let score = 0;
                             try {
+                                const testCase = currentTask.cases[index];
+                                testCase.spent_time = spent_time;
                                 const taskJudge = await this.judgeTestcase(currentTask.cases[index], async () => {
                                     currentTaskResult.status = TaskStatus.Running;
                                     await reportProgress();
                                 });
                                 currentTaskResult.status = TaskStatus.Done;
                                 currentTaskResult.result = taskJudge;
+                                if(typeof currentTaskResult.result.time == "number" && !isNaN(currentTaskResult.result.time))
+					spent_time += currentTaskResult.result.time;
                                 score = taskJudge.scoringRate;
                             } catch (err) {
                                 currentTaskResult.status = TaskStatus.Failed;

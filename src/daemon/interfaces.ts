@@ -46,6 +46,7 @@ export interface TestcaseJudge {
     input?: string;
     output?: string;
     userOutputFile?: string;
+    spent_time?: number;
     name: string;
 }
 
